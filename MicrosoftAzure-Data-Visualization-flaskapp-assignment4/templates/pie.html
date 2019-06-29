@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <link href="static/styles.css" rel="stylesheet">
+      <title>Pie Chart</title>
+  </head>
+  <body>
+    <div class="container">
+
+      <h1> 1001669338 </h1>
+      <h1> Padmanabhan, Goutami </h1>
+
+      <br>
+
+      <center>
+          <div id="piechart1" style="width: 900px; height: 500px;"></div>
+          <div id="piechart2" style="width: 900px; height: 500px;"></div>
+      </center>
+
+      <br>
+      <br>
+    </div>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+          google.charts.load('current', {'packages':['corechart']});
+          google.charts.setOnLoadCallback(drawChart);
+
+          function drawChart() {
+
+            var data = google.visualization.arrayToDataTable({{ rows[0]|safe }});
+
+            var options = {
+                title: ' Pie chart showing Number of Earthquakes with different magnitudes',
+                pieSliceText: 'value',
+                legend: {position: 'labeled'}
+                {#colors: ['yellow','lightgray','orange']#}
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('piechart1'));
+
+            chart.draw(data, options);
+
+            {#Pie chart2#}
+
+            var data = google.visualization.arrayToDataTable({{ rows[1]|safe }});
+
+            var options = {
+                title: ' Pie chart showing Number of Earthquakes with Magnitude > 5 and depth error gretaer and less than 5',
+                pieSliceText: 'value',
+                legend: {position: 'labeled'}
+                {#colors: ['yellow','lightgray','orange']#}
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
+
+            chart.draw(data, options);
+          }
+        </script>
+  </body>
+</html>

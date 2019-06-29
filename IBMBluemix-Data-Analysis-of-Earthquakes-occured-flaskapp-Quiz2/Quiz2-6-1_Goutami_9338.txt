@@ -1,0 +1,156 @@
+
+Name: Goutami Padmanabhan
+Last 4 digits ID: 9338
+Computer IP address: 10.182.83.111
+CSE 6331, Cloud Computing					
+
+
+Quiz Q2, 6.00, Summer 2019   (c) DL, UTA, 2019
+
+
+  C&P means cut and paste only those relevant lines from your program(s) into this quiz.
+
+
+ 1.  I understand that I am on my honor during this quiz, I will not collaborate, use 
+     non-allowed sources, and I will not discuss or share this quiz with anyone for the next 
+     12 hours.
+     You MAY: use Google to search, use previous source code, 
+     YOU MAY NOT use:
+     Email, Facebook, Hangouts, IM, chats, Skype or ANY other human connection.
+
+     This is a timed test. Late tests will have points deducted for being late.
+     Very late tests will not be graded.
+
+     When you are complete, with any part, please raise your hand, so we may visually inspect that part.
+
+     The second part of the test, you should electronically submit, you will need to copy and paste 
+     only those lines of code to implement that part of the test, usually a few (two to eight) lines of code. 
+     Place it immediately after the question.
+
+     Submit this Quiz (renamed) with code cut and pasted, ONLY text. DO NOT submit zips, binaries, libraries,
+     or anything other than text.
+
+     When any parts(questions) are complete complete, submit this test, you may make multiple submissions.
+
+     If you have computer, or other, problems, please raise your hand immediately.
+
+     If you understand and agree, please initial here:
+     _________________
+
+ 2. Get files from this same folder.
+   
+ 3. Name your program/submission with your name and last digits of your ID.
+
+ 4. Using the cloud services provider, all functionality possible should be implemented on that provider.
+    (Of course, displaying web pages through a browser and the user interface is "local")
+    The cloud service provider is IBM Cloud (BlueMix).
+  
+Show and submit code, when each part is complete, raise your hand and then show us:
+
+ 5. Show a web page and interface (which resides on the cloud provider) with your student ID followed by your
+    last name then comma then first name (as it appears on your student ID), in large font at the top of every web page displayed 
+    (for this quiz)
+    Upload the earthquake data ("quakes") to cloud service, and import into a relational DB (SQL).
+    Then, below your name and ID, show the total number of earthquakes ("quakes") in the data set, 
+    and give the smallest one ("mag"), that is greater than 2.0 (the minimum in the data set, greater than 2.0)
+    and its location (the name, the "place" location).  
+
+  <body>
+    <div class="container">
+
+      <h1> 1001669338 </h1>
+      <h1> Padmanabhan, Goutami </h1>
+	<h4> 
+        Upload file to IBM DB
+      </h4> <br>
+      <form action="/upload" method="POST" enctype= "multipart/form-data">
+        <label> CSV File:</label> <input type="file" name="myfile"> 
+        <input type="submit" name="upload" value="Upload" class="btn btn-primary">
+      </form>
+      <br> 
+     </div>
+  </body>
+
+import pandas as pd
+import sqlite3
+
+@app.route("/upload", methods=["POST", "GET"])
+def upload():
+    if request.method == 'POST':
+        con = sql.connect("database.db")
+        csv = request.files['myfile']
+        file = pd.read_csv(csv)
+        file.to_sql('Earthquake', con, schema=None, if_exists='replace', index=True, index_label=None, chunksize=None, dtype=None)
+        con.close()
+    
+    
+    upload_data = []
+    query1 = "SELECT COUNT(*) AS TOTAL, MIN(MAG) AS MINMAG, PLACE, LATITUDE, LONGITUDE FROM EARTHQ GROUP BY LATITUDE,LONGITUDE,PLACE HAVING MIN(MAG) > '2'"
+
+
+    stmt1 = ibm_db.exec_immediate(conn, query1)
+    result = ibm_db.fetch_both(stmt1)
+    while result:
+        upload_data.append(result)
+        result = ibm_db.fetch_both(stmt1)
+
+    return render_template('upload.html', table=upload_data, rowcount=len(upload_data), title='Upload data')
+
+ 6. Through a web interface (page), allow a user to give two depth values and an increment (for example 4.0, 10.0, and 2) 
+    and show the number of quakes between those depth values in increments given (that is, for the example, 
+    all quakes, mag 4 to 6, 6 to 8, 8 to 10), show the number of quakes in EACH interval.
+
+ 7. Through a web interface (page), allow a user to give two location values (lat and long for two different locations) 
+    and show (list) the lat, long, and place (name), for every earthquake in that area (box).
+
+ 8. Through a web interface (page), allow a user to give a date range in Z (GMT) (that is, two dates)
+    and a depth range, and modify all earthquakes within that range, to contain a mag of "999". 
+    Then show number of tuples (records) changed.'
+'
+<form action="/update" method="POST" >
+        
+        <label> Date Range </label> <br>
+        <label> From: </label> <input type="text" name="startdate" placeholder="2019-06-12"> <br>
+        <label> To: </label> <input type="text" name="enddate" placeholder="2019-06-12"> <br>  
+        <label> Depth </label> <br>
+        <label> From:</label> <input type="number" name="depthrange1" step="any"> <br>
+        <label> To: </label> <input type="number" name="depthrange2" step="any"> <br>   
+        <label> Magnitude: </label> <input type="number" name="mag" step="any"> <br>   
+        <input type="submit" value="Search" class="btn btn-primary"> 
+      </form>
+      <br>
+
+
+@app.route("/update", methods=["POST", "GET"])
+def update():
+    depthrange1 = request.form.get("depthrange1")
+    depthrange2 = request.form.get("depthrange2")
+    startdate = request.form.get("startdate")
+    enddate = request.form.get("enddate")
+    magnitude = request.form.get("magnitude")
+
+    
+    update_data = []
+    query1 = "UPDATE EARTHQ SET MAG = '" + str(magnitude) + "'  WHERE DEPTH BETWEEN '" + str(depthrange1) + "' AND '" + str(depthrange2) + "' AND GMTTIME BETWEEN '" + str(startdate) + "%' AND '" + str(enddate) + "%'"
+    stmt1 = ibm_db.exec_immediate(conn, query1)
+    result = ibm_db.fetch_both(stmt1)
+    query2 = "SELECT * FROM EARTHQ  WHERE DEPTH BETWEEN '" + str(depthrange1) + "' AND '" + str(depthrange2) + "' AND GMTTIME BETWEEN '" + str(startdate) + "%' AND '" + str(enddate) + "%'"
+    stmt2 = ibm_db.exec_immediate(conn, query2)
+    result = ibm_db.fetch_both(stmt2)
+    while result:
+        update_data.append(result)
+        result = ibm_db.fetch_both(stmt2)
+
+    return render_template('update.html', table=update_data, rowcount=len(update_data), title='Update Data')
+
+ 9.  Through a web interface (page), allow a user to give a location description (for example "Arctic Village")
+     OR a lat, long, and a distance (for example 200 km), and find all quakes within that distance of the location.
+     (If the location says 69 km NW of Arctic Village, ignore the 69 km NW part, just treat the location of Arctic Village 
+     as the matching lat, long, in this case 68.5294, -146.8218)
+
+ 10. Show GTA parts 5, 6, 7, 8, 9
+
+ 11. When complete, return (send) this quiz
+     If you finish early, send this immediately, otherwise send between
+     the end of class and no more than 1 minute after that.
+

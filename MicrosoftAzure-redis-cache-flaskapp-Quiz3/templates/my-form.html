@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="static/styles.css" rel="stylesheet">
+
+        <title>Home</title>
+    </head>
+    <body>
+        <div class="container">
+
+            <h1>1001669338</h1>
+            <h1>Padmanabhan, Goutami</h1>
+            <br>
+
+            <br>
+            <p>***********************************************************************************************************************************************************************</p>
+
+            <h4>
+                 5. Show a web page and interface (which resides on the cloud provider) with your student ID followed by your
+    last name then comma then first name (as it appears on your student ID), in large font at the top of every web page displayed
+    (for this quiz)     Upload the earthquake data ("quakes6") to cloud service, and import into a relational DB (SQL). Then, below your name and ID, through a web interface (page), allow a user to give two depth error values (depth error, last column)
+    (for example 10.0 and 12.5), and one longitude value (for example 42) and on the web page list each quake ONLY location (lat, long)
+    AND date and depth error within that depth error range with longitude greater than the one given.
+            </h4> <br>
+            <form action="/display" method="post">
+                <label>Depth Error</label><br>
+                <label> From:</label> <input type="number" name="depthrange1" step="any"> <br>
+                <label> To:</label> <input type="number" name="depthrange2" step="any"> <br>
+                <label> Longitude:</label> <input type="number" name="longitude" step="any"> <br><br>
+                <input type="submit" value="Search" class="btn btn-primary">
+            </form>
+
+            <br>
+            <p>***********************************************************************************************************************************************************************</p>
+            <br>
+            <h4>
+                 6. Through a web interface (page), allow a user to give you the number of times to do the "query",
+    you will do the previous step 5 (part 5) that number of times, where the two depth values will be randomly chosen between
+    those values given, BUT DO NOT use the longitude constraint (don't use that value), Then you will do that number of queries, each time generating new random value "pairs" within that range.
+    (For example: the number of times, for instance 38 times, and we give you the range 10.0 and 12.5, you generate
+    two random values within that range, for example 10.8 and 11.1, then 12.3 and 12.4, repeating 38 times.) Then you will show:
+    The number of matching tuples (results) EACH time through AND random values generated as well as the time taken to do EACH "random" query.
+            </h4> <br>
+            <form action="/random" method="post">
+                <label> Number of times:</label> <input type="number" name="num" step="any"> <br>
+                <label> Depth Error </label> <br>
+                <label> From:</label> <input type="number" name="depthrange1" step="any"> <br>
+                <label> To:</label> <input type="number" name="depthrange2" step="any"> <br> <br>
+                <input type="submit" value="Search" class="btn btn-primary">
+            </form>
+            <br>
+            <p>***********************************************************************************************************************************************************************</p>
+            <br>
+             <h4>
+                 7. Through a web interface (page), allow a user to give you the number of times to do the "query",
+    you will do the previous step 5 (part 5) that number of times, where the two depth values will be randomly chosen between
+    those values given, BUT DO NOT use the longitude constraint (don't use that value), Then you will do that number of queries, each time generating new random value "pairs" within that range.
+    (For example: the number of times, for instance 38 times, and we give you the range 10.0 and 12.5, you generate
+    two random values within that range, for example 10.8 and 11.1, then 12.3 and 12.4, repeating 38 times.) Then you will show:
+    The number of matching tuples (results) EACH time through AND random values generated as well as the time taken to do EACH "random" query.
+            </h4> <br>
+            <form action="/cumulative" method="post">
+                <label> Number of times:</label> <input type="number" name="num" step="any"> <br>
+                <label> Depth Error </label> <br>
+                <label> From:</label> <input type="number" name="depthrange1" step="any"> <br>
+                <label> To:</label> <input type="number" name="depthrange2" step="any"> <br> <br>
+                <input type="submit" value="Search" class="btn btn-primary">
+            </form>
+            <br>
+            <p>***********************************************************************************************************************************************************************</p>
+            <br>
+
+
+            <br>
+            <p>***********************************************************************************************************************************************************************</p>
+            <br>
+
+
+            <br>
+        </div>
+    </body>
+</html>

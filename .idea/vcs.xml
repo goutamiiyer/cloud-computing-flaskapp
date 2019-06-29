@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Data Manipulation and Visualization/CloudExampleBasic" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Data Manipulation and Visualization/flaskapp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Data Manipulation and Visualization/flaskapp-assignment" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Data Manipulation and Visualization/get-started-python" vcs="Git" />
+  </component>
+</project>

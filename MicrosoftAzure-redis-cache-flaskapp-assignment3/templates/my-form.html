@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="static/styles.css" rel="stylesheet">
+
+        <title>Home</title>
+    </head>
+    <body>
+        <div class="container">
+
+            <h1>1001669338</h1>
+            <h1>Padmanabhan, Goutami</h1>
+            <br>
+
+            <br>
+            <p>***********************************************************************************************************************************************************************</p>
+            <br>
+            <p>Minimum Magnitude: {{single[0]}}</p>
+            <br>
+
+            <h4>
+                Earthquakes where RMS greater than
+            </h4> <br>
+            <form action="/display" method="post">
+                <label> RMS:</label> <input type="number" name="rms" step="any"> <br> <br>
+                <input type="submit" value="Search" class="btn btn-primary">
+            </form>
+
+            <br>
+            <p>***********************************************************************************************************************************************************************</p>
+            <br>
+            <h4>
+                Earthquakes between Magnitudes
+            </h4> <br>
+            <form action="/listofqueries" method="post">
+                <label> Magnitude </label> <br>
+                <label> From:</label> <input type="number" name="magrange1" step="any"> <br>
+                <label> To:</label> <input type="number" name="magrange2" step="any"> <br> <br>
+                <input type="submit" value="Search" class="btn btn-primary">
+            </form>
+            <br>
+            <p>***********************************************************************************************************************************************************************</p>
+            <br>
+
+            <h4>
+                No caching - "SELECT latitude FROM earthq where locationsrc='ak'"
+            </h4> <br>
+            <form action="/queries" method="post">
+                <label> Number of times:</label> <input type="number" name="num"> <br>
+{#                <label> Magnitude:</label> <input type="number" name="mag" step="any"> <br> <br>#}
+
+{#                <label> NET:</label> <input type="text" name="net" > <br> <br>#}
+                <input type="submit" value="Search" class="btn btn-primary">
+            </form>
+
+            <br>
+            <p>***********************************************************************************************************************************************************************</p>
+            <br>
+            <h4>
+                Caching - Earthquakes where Magnitude is
+            </h4> <br>
+            <form action="/restricted" method="post">
+                <label> Number of times:</label> <input type="number" name="num"> <br>
+{#                <label> Magnitude:</label> <input type="number" name="mag" step="any"> <br> <br>#}
+
+{#                <label> NET:</label> <input type="text" name="net" > <br> <br>#}
+                <input type="submit" value="Search" class="btn btn-primary">
+            </form>
+
+            <br>
+            <p>***********************************************************************************************************************************************************************</p>
+            <br>
+            <h4>
+                Number of queries
+            </h4> <br>
+            <form action="/noqueries" method="post">
+                <label> Number of times:</label> <input type="number" name="no"> <br>
+                <input type="submit" value="Search" class="btn btn-primary">
+            </form>
+
+            <br>
+            <p>***********************************************************************************************************************************************************************</p>
+            <br>
+            <h4>
+                Restrict
+            </h4> <br>
+            <form action="/restqueries" method="post">
+                <label> Number of times:</label> <input type="number" name="n"> <br>
+                <label>Magnitude</label><br>
+                <label> From:</label> <input type="number" name="m1" step="any"> <br>
+                <label> To:</label> <input type="number" name="m2" step="any"> <br>
+                <input type="submit" value="Search" class="btn btn-primary">
+            </form>
+
+            <br>
+            <p>***********************************************************************************************************************************************************************</p>
+            <br>
+            <h4>
+                Restrict2
+            </h4> <br>
+            <form action="/restqueries2" method="post">
+                <label> Number of times:</label> <input type="number" name="n2"> <br>
+                <label>Magnitude</label><br>
+                <label> From:</label> <input type="number" name="mg1" step="any"> <br>
+                <label> To:</label> <input type="number" name="mg2" step="any"> <br>
+                <input type="submit" value="Search" class="btn btn-primary">
+            </form>
+
+            <br>
+            <p>***********************************************************************************************************************************************************************</p>
+            <br>
+
+
+            <br>
+        </div>
+    </body>
+</html>

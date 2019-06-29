@@ -1,0 +1,528 @@
+
+Name: Goutami Padmanabhan
+Last 4 digits ID: 9338
+Computer IP address: 10.121.129.127
+CSE 6331, Cloud Computing					
+
+
+Quiz Q5, 6.00, Summer 2019   (c) DL, UTA, 2019
+
+
+  C&P means cut and paste only those relevant lines from your program(s) into this quiz.
+
+
+ 1.  I understand that I am on my honor during this quiz, I will not collaborate, use 
+     non-allowed sources, and I will not discuss or share this quiz with anyone for the next 
+     12 hours.
+     You MAY: use Google to search, use previous source code, 
+     YOU MAY NOT use:
+     Email, Facebook, Hangouts, IM, chats, Skype or ANY other human connection.
+
+     This is a timed test. Late tests will have points deducted for being late.
+     Very late tests will not be graded.
+
+     When you are complete, with any part, please raise your hand, so we may visually inspect that part.
+
+     The second part of the test, you should electronically submit, you will need to copy and paste 
+     only those lines of code to implement that part of the test, usually a few (two to eight) lines of code. 
+     Place it immediately after the question.
+
+     Submit this Quiz (renamed) with code cut and pasted, ONLY text. DO NOT submit zips, binaries, libraries,
+     or anything other than text.
+
+     When any parts(questions) are complete complete, submit this test, you may make multiple submissions.
+
+     If you have computer, or other, problems, please raise your hand immediately.
+
+     If you understand and agree, please initial here:
+     _________________G.P
+
+ 2. Get files from this same folder.
+   
+ 3. Name your program/submission with your name and last digits of your ID.
+
+ 4. Using the cloud services provider, all functionality possible should be implemented on that provider.
+    (Of course, displaying web pages through a browser and the user interface is "local")
+    The cloud service provider is AWS.
+
+ 4+ In order to give as many people the opportunity to demo in the last few minutes, you may only demo ONE Question in the
+    last 5 minutes of the quiz time or for the few minutes afterward. 
+
+ 4++ Missing data is not available, and should not be considered to be zero.
+  
+Show and submit code, when each part is complete, raise your hand and then show us:
+
+ 5. Using k-means clustering, find: 
+       first: 4 clusters based on columns Wealth and Height.
+       Show, in textual form, time to run, centroids for the clusters, and number of points in each cluster. 
+       then: 3 clusters based on Fare and Age.
+       Show, in textual form, time to run, centroids for the clusters, and number of points in each cluster. 
+       Display both results on the same web page.
+       (no "visualizing", no graphing necessary).
+
+@application.route("/ycluster", methods=["POST", "GET"])
+def ycluster():
+    ylist = []
+    file_name = "static/minnow.csv"
+    cluster_num = int(request.form['cluster'])
+    attribute1 = request.form['attribute1']
+    attribute2 = request.form['attribute2']
+    val1 = []
+    val2 = []
+    if attribute1 == "cabin":
+        a = 0
+    if attribute1 == "fname":
+        a = 1
+    if attribute1 == "lname":
+        a = 2
+    if attribute1 == "age":
+        a = 3
+    if attribute1 == "height":
+        a = 4
+    if attribute1 == "education":
+        a = 5
+    if attribute1 == "wealth":
+        a = 6
+    if attribute1 == "survived":
+        a = 7
+    if attribute1 == "lat":
+        a = 8
+    if attribute1 == "long":
+        a = 9
+    if attribute1 == "fare":
+        a = 10
+    if attribute2 == "cabin":
+        b = 0
+    if attribute2 == "fname":
+        b = 1
+    if attribute2 == "lname":
+        b = 2
+    if attribute2 == "age":
+        b = 3
+    if attribute2 == "height":
+        b = 4
+    if attribute2 == "education":
+        b = 5
+    if attribute2 == "wealth":
+        b = 6
+    if attribute2 == "survived":
+        b = 7
+    if attribute2 == "lat":
+        b = 8
+    if attribute2 == "long":
+        b = 9
+    if attribute2 == "fare":
+        b = 10
+
+    start_time = time.time()
+    f = open(file_name)
+    for row in csv.reader(f):
+        try:
+            valx = row[a]
+            if a == 0 or a == 3 or a == 4 or a == 5 or a == 6 or a == 8 or a == 9 or a == 10:
+                valx = int(valx)
+
+            valy = row[b]
+            if b == 0 or b == 3 or b == 4 or b == 5 or b == 6 or b == 8 or b == 9 or b == 10:
+                valy = int(valy)
+
+            if valy not in ylist:
+                ylist.append(valy)
+            listyindex = ylist.index(valy)
+            val1.append(valx)
+            val2.append(listyindex)
+        except ValueError:
+            continue
+
+    datal = []
+    udatal = []
+    for i in range(0, len(val1) - 1):
+        datal.append(val1[i])
+        datal.append(val2[i])
+        udatal.append(datal)
+        datal = []
+
+    final = np.array(udatal)
+
+    km = KMeans(n_clusters=cluster_num).fit(final)
+    labels = km.labels_
+    centroids = km.cluster_centers_
+    dists = euclidean_distances(km.cluster_centers_)
+
+# Calculate the mean distance
+# distance between each data point of a cluster to their respective cluster centroids
+    c_mean_distances = []
+    for i, (cx, cy) in enumerate(centroids):
+        # Calculate Euclidean distance for each data point assigned to centroid
+        mean_distance = k_mean_distance(final, cx, cy, i, labels)
+        c_mean_distances.append(mean_distance)
+
+    length = {len(final[np.where(labels == i)]) for i in range(km.n_clusters)}
+    points = {i: final[np.where(labels == i)] for i in range(km.n_clusters)}
+
+    end_time = time.time()
+    elapsed_time = end_time-start_time
+    fields = zip(c_mean_distances, length, centroids)
+
+    p=[]
+    for i in range(km.n_clusters):
+        p.append(final[np.where(labels == i)])
+
+    return render_template("ycluster.html", length=length, points=str(points), distance=c_mean_distances, fields=fields,
+                           centroids=centroids, p=p, dists=dists, elapsed_time=elapsed_time)
+
+ 6. Create a web form that allows a user to choose the number of clusters to find, then
+    select any two attributes (columns) from CabinNum, Lat, Age, Wealth, Education and fare,
+    then the range of values in each attribute, and show, the results, in textual form: 
+    centroids, and list the number of points in each cluster. 
+    Also show the maximum distance (how tightly packed) between all points in each cluster (in a table).
+    (For example a user may enter 10 as the number of clusters to find, may select age from age 30 to 38 and then
+    fare from 120 to 250 as the two attributes.)
+
+@application.route("/cluster", methods=["POST", "GET"])
+def cluster():
+    ylist = []
+    file_name = "static/minnow.csv"
+    cluster_num = int(request.form['cluster'])
+    attribute1 = request.form['attribute1']
+    attribute2 = request.form['attribute2']
+    range1 = (request.form.get('range1', ''))
+    range2 = (request.form.get('range2', ''))
+    range3 = (request.form.get('range3', ''))
+    range4 = (request.form.get('range4', ''))
+    val1 = []
+    val2 = []
+    if attribute1 == "cabin":
+        a = 0
+    if attribute1 == "fname":
+        a = 1
+    if attribute1 == "lname":
+        a = 2
+    if attribute1 == "age":
+        a = 3
+    if attribute1 == "height":
+        a = 4
+    if attribute1 == "education":
+        a = 5
+    if attribute1 == "wealth":
+        a = 6
+    if attribute1 == "survived":
+        a = 7
+    if attribute1 == "lat":
+        a = 8
+    if attribute1 == "long":
+        a = 9
+    if attribute1 == "fare":
+        a = 10
+    if attribute2 == "cabin":
+        b = 0
+    if attribute2 == "fname":
+        b = 1
+    if attribute2 == "lname":
+        b = 2
+    if attribute2 == "age":
+        b = 3
+    if attribute2 == "height":
+        b = 4
+    if attribute2 == "education":
+        b = 5
+    if attribute2 == "wealth":
+        b = 6
+    if attribute2 == "survived":
+        b = 7
+    if attribute2 == "lat":
+        b = 8
+    if attribute2 == "long":
+        b = 9
+    if attribute2 == "fare":
+        b = 10
+
+    start_time = time.time()
+    f = open(file_name)
+    for row in csv.reader(f):
+        try:
+            valx = row[a]
+            if a == 0 or a == 3 or a == 4 or a == 5 or a == 6 or a == 8 or a == 9 or a == 10:
+                valx = int(valx)
+                range1 = int(range1)
+                range2 = int(range2)
+
+            valy = row[b]
+            if b == 0 or b == 3 or b == 4 or b == 5 or b == 6 or b == 8 or b == 9 or b == 10:
+                valy = int(valy)
+                range3 = int(range3)
+                range4 = int(range4)
+
+            if valy not in ylist:
+                ylist.append(valy)
+            listyindex = ylist.index(valy)
+            val1.append(valx)
+            val2.append(listyindex)
+        except ValueError:
+            continue
+
+    datal = []
+    udatal = []
+    for i in range(0, len(val1) - 1):
+        datal.append(val1[i])
+        datal.append(val2[i])
+        udatal.append(datal)
+        datal = []
+
+    final = np.array(udatal)
+
+    km = KMeans(n_clusters=cluster_num).fit(final)
+    labels = km.labels_
+    centroids = km.cluster_centers_
+    dists = euclidean_distances(km.cluster_centers_)
+
+    
+    tri_dists = dists[np.triu_indices(cluster_num)]
+    max_dist=tri_dists.max()
+
+# Calculate the mean distance
+# distance between each data point of a cluster to their respective cluster centroids
+    c_mean_distances = []
+    for i, (cx, cy) in enumerate(centroids):
+        # Calculate Euclidean distance for each data point assigned to centroid
+        mean_distance = k_mean_distance(final, cx, cy, i, labels)
+        c_mean_distances.append(mean_distance)
+
+    length = {len(final[np.where(labels == i)]) for i in range(km.n_clusters)}
+    points = {i: final[np.where(labels == i)] for i in range(km.n_clusters)}
+
+    end_time = time.time()
+    elapsed_time = end_time-start_time
+    fields = zip(c_mean_distances, length, centroids)
+
+    p=[]
+    for i in range(km.n_clusters):
+        p.append(final[np.where(labels == i)])
+
+    return render_template("cluster.html", length=length, points=str(points), distance=c_mean_distances, fields=fields,
+                           centroids=centroids, p=p, dists=dists, elapsed_time=elapsed_time, max_dist=max_dist)
+
+
+ 7. On a web form, a user will give a centroid (location) and you will show the name of ALL passengers in that cluster, 
+    and for EACH passenger in that cluster show ONLY name and age.
+
+ 8. Bonus:
+    Using what was done in question 6, showing the same web form, please show a page,
+    followed by a either a pie chart or a vertical bar chart on that page, which is at least 80 percent the width of the screen, 
+    which has, as a label, the centroid of a cluster, and is proportional to the number of points in that cluster.
+    That is: each bar or pie slice should have a label for the centroid of that cluster, and it's size is relative to he number of points 
+    in that cluster.
+    Each bar or pie slice should be in a different color, please show labels inside or to the right of each bar, 
+    or inside or adjacent to each pie slice.
+
+@application.route("/piecluster", methods=["POST", "GET"])
+def piecluster():
+    ylist = []
+    file_name = "static/minnow.csv"
+    cluster_num = int(request.form['cluster'])
+    attribute1 = request.form['attribute1']
+    attribute2 = request.form['attribute2']
+    range1 = (request.form.get('range1', ''))
+    range2 = (request.form.get('range2', ''))
+    range3 = (request.form.get('range3', ''))
+    range4 = (request.form.get('range4', ''))
+    val1 = []
+    val2 = []
+    if attribute1 == "cabin":
+        a = 0
+    if attribute1 == "fname":
+        a = 1
+    if attribute1 == "lname":
+        a = 2
+    if attribute1 == "age":
+        a = 3
+    if attribute1 == "height":
+        a = 4
+    if attribute1 == "education":
+        a = 5
+    if attribute1 == "wealth":
+        a = 6
+    if attribute1 == "survived":
+        a = 7
+    if attribute1 == "lat":
+        a = 8
+    if attribute1 == "long":
+        a = 9
+    if attribute1 == "fare":
+        a = 10
+    if attribute2 == "cabin":
+        b = 0
+    if attribute2 == "fname":
+        b = 1
+    if attribute2 == "lname":
+        b = 2
+    if attribute2 == "age":
+        b = 3
+    if attribute2 == "height":
+        b = 4
+    if attribute2 == "education":
+        b = 5
+    if attribute2 == "wealth":
+        b = 6
+    if attribute2 == "survived":
+        b = 7
+    if attribute2 == "lat":
+        b = 8
+    if attribute2 == "long":
+        b = 9
+    if attribute2 == "fare":
+        b = 10
+
+    start_time = time.time()
+    f = open(file_name)
+    for row in csv.reader(f):
+        try:
+            valx = row[a]
+            if a == 0 or a == 3 or a == 4 or a == 5 or a == 6 or a == 8 or a == 9 or a == 10:
+                valx = int(valx)
+                range1 = int(range1)
+                range2 = int(range2)
+
+            valy = row[b]
+            if b == 0 or b == 3 or b == 4 or b == 5 or b == 6 or b == 8 or b == 9 or b == 10:
+                valy = int(valy)
+                range3 = int(range3)
+                range4 = int(range4)
+
+            if valy not in ylist:
+                ylist.append(valy)
+            listyindex = ylist.index(valy)
+            val1.append(valx)
+            val2.append(listyindex)
+        except ValueError:
+            continue
+
+    datal = []
+    udatal = []
+    for i in range(0, len(val1) - 1):
+        datal.append(val1[i])
+        datal.append(val2[i])
+        udatal.append(datal)
+        datal = []
+
+    final = np.array(udatal)
+
+    km = KMeans(n_clusters=cluster_num).fit(final)
+    labels = km.labels_
+    centroids = km.cluster_centers_
+    dists = euclidean_distances(km.cluster_centers_)
+
+
+    tri_dists = dists[np.triu_indices(cluster_num)]
+    max_dist=tri_dists.max()
+
+# Calculate the mean distance
+# distance between each data point of a cluster to their respective cluster centroids
+    c_mean_distances = []
+    for i, (cx, cy) in enumerate(centroids):
+        # Calculate Euclidean distance for each data point assigned to centroid
+        mean_distance = k_mean_distance(final, cx, cy, i, labels)
+        c_mean_distances.append(mean_distance)
+
+    length = {len(final[np.where(labels == i)]) for i in range(km.n_clusters)}
+    points = {i: final[np.where(labels == i)] for i in range(km.n_clusters)}
+
+    end_time = time.time()
+    elapsed_time = end_time-start_time
+    fields = zip(c_mean_distances, length, centroids)
+
+    p=[]
+    for i in range(km.n_clusters):
+        p.append(final[np.where(labels == i)])
+
+    sql1 = "SELECT count('" + str(attribute1) + "') FROM dbo.titanic WHERE '" + str(attribute1) + "' BETWEEN '" + str(range1) + "' AND '" + str(range2) + "'"
+    cursor.execute(sql1)
+    rows1 = cursor.fetchall()
+    sql2 = "SELECT count('" + str(attribute2) + "') FROM dbo.titanic WHERE '" + str(attribute2) + "' BETWEEN '" + str(range3) + "' AND '" + str(range4) + "'"
+    cursor.execute(sql2)
+    rows2 = cursor.fetchall()
+
+    rows = ([
+        ['the centroid of a cluster', 'number of points in that cluster'],
+        [str(range1) + '-' + str(range2), rows1[0][0]],
+        [str(range3) + '-' + str(range4), rows2[0][0]]
+
+    ])
+
+    # val = []
+    # for vals in rows1[0]:
+    #     val.append(int(vals))
+    # total = 0
+    # for vals in val:
+    #     total = total + vals
+    # labels = ["the centroid of a cluster", "number of points in that cluster"]
+    # legendtab=[]
+    # for i in range(len(labels)):
+    #     legendtab.append(labels[i] + " - " + str(round(val[i] / total * 100, 2)) + "%")
+    #
+    # patch = plt.pie(val, shadow=False, startangle=140, pctdistance=0.9, radius=2)
+    # plt.legend(patch[0], legendtab, bbox_to_anchor=(0.5, 0.5), bbox_transform=plt.gcf().transFigure, loc="best")
+    # plt.axis("equal")
+    # plt.title("the centroid of cluster")
+    # plt.tight_layout()
+    # plt.show()
+    # plt.savefig("visualization.png")
+    # plt.clf()
+    # fileinfo = base64.b64encode(readbytesfile("visualization.png")).decode()
+
+    return render_template("piecluster.html", length=length, points=str(points), distance=c_mean_distances, fields=fields,
+                           centroids=centroids, p=p, dists=dists, elapsed_time=elapsed_time, max_dist=max_dist, rows=rows)
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <link href="static/styles.css" rel="stylesheet">
+      <title>Show</title>
+  </head>
+  <body>
+    <div class="container">
+
+      <h1> 1001669338 </h1>
+      <h1> Padmanabhan, Goutami </h1>
+
+      <br>
+
+      <center>
+          <div id="piechart" style="width: 900px; height: 500px;"></div>
+      </center>
+
+      <br>
+      <br>
+    </div>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+          google.charts.load('current', {'packages':['corechart']});
+          google.charts.setOnLoadCallback(drawChart);
+
+          function drawChart() {
+
+            var data = google.visualization.arrayToDataTable({{ rows|safe }});
+
+            var options = {
+                title: ' Pie chart showing the centroid of a cluster and the number of points in that cluster',
+                pieSliceText: 'value',
+                legend: {position: 'labeled'}
+                {#colors: ['yellow','lightgray','orange']#}
+            };
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+            chart.draw(data, options);
+          }
+        </script>
+  </body>
+</html>
+
+ 
+ 9. Show GTA parts 5, 6, 7, 8(if done)
+
+ 10. When complete, return (send) this quiz
+     If you finish early, send this immediately, otherwise send between
+     the end of class and no more than 1 minute after that.

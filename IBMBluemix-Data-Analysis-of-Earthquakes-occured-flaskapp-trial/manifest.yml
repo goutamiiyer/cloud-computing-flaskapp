@@ -1,0 +1,4 @@
+  applications:
+  - name: people-gp
+    random-route: true
+    memory: 64M

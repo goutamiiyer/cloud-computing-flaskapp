@@ -1,0 +1,148 @@
+
+Name:
+Last 4 digits ID:
+Computer IP address:
+CSE 6331, Cloud Computing					
+
+
+Quiz Q1, 6.00, Summer 2019   (c) DL, UTA, 2019
+
+
+  C&P means cut and paste only those relevant lines from your program(s) into this quiz.
+
+
+ 1.  I understand that I am on my honor during this quiz, I will not collaborate, use 
+     non-allowed sources, and I will not discuss or share this quiz with anyone for the next 
+     12 hours.
+     You MAY: use Google to search, use previous source code, 
+     YOU MAY NOT use:
+     Email, Facebook, Hangouts, IM, chats, Skype or ANY other human connection.
+
+     This is a timed test. Late tests will have points deducted for being late.
+     Very late tests will not be graded.
+
+     When you are complete, with any part, please raise your hand, so we may visually inspect that part.
+
+     The second part of the test, you should electronically submit, you will need to copy and paste 
+     only those lines of code to implement that part of the test, usually a few (two to eight) lines of code. 
+     Place it immediately after the question.
+
+     Submit this Quiz (renamed) with code cut and pasted, ONLY text. DO NOT submit zips, binaries, libraries,
+     or anything other than text.
+
+     When any parts(questions) are complete complete, submit this test, you may make multiple submissions.
+
+     If you have computer, or other, problems, please raise your hand immediately.
+
+     If you understand and agree, please initial here:
+     _________________
+
+ 2. Get files from this same folder.
+   
+ 3. Name your program/submission with your name and last digits of your ID.
+
+ 4. Using the cloud services provider, all functionality possible should be implemented on that provider.
+    (Of course, displaying web pages through a browser and the user interface is "local")
+  
+Show and submit code, when each part is complete, raise your hand and then show us:
+
+ 5. Show a web page and interface (which resides on the cloud provider) with your student ID followed by your
+    last name then comma then first name (as it appears on your student ID), in large font at the top of every web page displayed (for this quiz)
+    The cloud service provider is IBM Cloud (BlueMix).
+Done and shown
+    
+ 6. Upload all data files (*jpg and *csv, not this quiz) to cloud service, 
+    then show the names and sizes of all *jpg (stored on cloud) on your screen in a web page.
+
+cos://us-east/bucket-gp
+
+ 7. Through a web interface (page), allow user to give a point value and you show the corresponding names, pictures, and "favorite" string
+    (or show "no data or matching available").
+
+@app.route("/showpoint", methods=["POST", "GET"])
+def showpoint():
+    point = request.form.get("point")
+    point_data = []
+    query1 = "SELECT NAME,PICTURE,FAVORITE FROM QPEOPLE WHERE POINTS = '"+ str(point)+ "'"
+    stmt1 = ibm_db.exec_immediate(conn, query1)
+    result = ibm_db.fetch_both(stmt1)
+    while result:
+        point_data.append(result)
+        result = ibm_db.fetch_both(stmt1)
+
+    return render_template('showpoint.html', table=point_data, title='Show point')
+
+<form action="/showpoint" method="POST">
+        <label> Points: </label> <input type="number" name="point">
+        <input type="submit" value="Show">
+</form>
+
+ 8. (Web Page) allow a user to give two "point" values AND a word within the "favorite" and show all pictures, names, and states for each person
+    within that range (matching) of point values, whose word is in the favorite value (string).
+
+@app.route("/word", methods=["POST", "GET"])
+def word():
+    range1 = request.form.get("range1")
+    range2 = request.form.get("range2")
+    word = request.form.get("word")
+
+    all_data = []
+    query1 = "SELECT NAME,STATE,PICTURE FROM QPEOPLE WHERE FAVORITE LIKE '%"+ str(word)+ "%' AND POINTS BETWEEN '"+ str(range1)+ "' AND '"+ str(range2)+ "'"
+    stmt1 = ibm_db.exec_immediate(conn, query1)
+    result = ibm_db.fetch_both(stmt1)
+    while result:
+        all_data.append(result)
+        result = ibm_db.fetch_both(stmt1)
+
+    return render_template('word.html', table=all_data, title='Word')
+
+<form action="/word" method="POST">
+        <label> Point1: </label> <input type="number" name="range1">
+        <label> Point2: </label> <input type="number" name="range2">
+        <label> Word: </label> <input type="text" name="word">
+        <input type="submit" value="Show">
+      </form>
+
+ 9. (Web page) allow a user to give a point value (and if necessary name) then modify either the name, points or the favorite string.
+
+@app.route("/update", methods=["POST", "GET"])
+def update():
+    point = request.form.get("point")
+    name = request.form.get("name")
+    cpoint = request.form.get("cpoint")
+    favorite = request.form.get("favorite")
+    kword_data = []
+    if cpoint:
+        query1 = "UPDATE QPEOPLE SET POINTS = '" + str(cpoint) + "' WHERE POINTS = '"+ str(point)+ "'"
+    elif name:
+        query1 = "UPDATE QPEOPLE SET NAME = '" + str(name) + "' WHERE POINTS = '"+ str(point)+ "'"
+    elif favorite:
+        query1 = "UPDATE QPEOPLE SET FAVORITE = '" + str(favorite) + "' WHERE POINTS = '"+ str(point)+ "'"
+    else:
+        pass
+    
+    stmt1 = ibm_db.exec_immediate(conn, query1)
+    query2 = "SELECT * FROM PEOPLE"
+    stmt2 = ibm_db.exec_immediate(conn, query2)
+    result = ibm_db.fetch_both(stmt2)
+    while result:
+        kword_data.append(result)
+        result = ibm_db.fetch_both(stmt2)
+
+    return render_template('update.html', table=kword_data, title='Update')
+
+
+<form action="/update" method="POST">
+        <label> Point: </label> <input type="number" name="point">
+        <label> Changed Point: </label> <input type="number" name="cpoint">
+        <label> Name: </label> <input type="text" name="name">
+        <label> Favorite: </label> <input type="text" name="favorite">
+        <input type="submit" value="Update">
+      </form>
+
+ 10. Show GTA parts 5, 6, 7, 8, 9
+
+ 11. When complete, return (send) this quiz
+     If you finish early, send this immediately, otherwise send between
+     the end of class and no more than 1 minute after that.
+

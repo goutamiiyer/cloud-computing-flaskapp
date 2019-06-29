@@ -1,0 +1,209 @@
+Entity,Code,Year,Indicator:Average -  cigarette price in international dollars (international-$)
+Algeria,DZA,2012,1.84
+Algeria,DZA,2014,2.09
+Argentina,ARG,2012,2.79
+Argentina,ARG,2014,3.47
+Armenia,ARM,2012,1.69
+Armenia,ARM,2014,1.74
+Australia,AUS,2012,8.24
+Australia,AUS,2014,10.64
+Austria,AUT,2012,4.97
+Austria,AUT,2014,5.34
+Azerbaijan,AZE,2012,1.75
+Azerbaijan,AZE,2014,2.7
+Bahamas,BHS,2014,9.75
+Bangladesh,BGD,2012,1.38
+Bangladesh,BGD,2014,1.54
+Belarus,BLR,2012,1.79
+Belarus,BLR,2014,1.77
+Belgium,BEL,2012,5.29
+Belgium,BEL,2014,6.08
+Belize,BLZ,2014,6.75
+Bolivia,BOL,2012,2.89
+Bolivia,BOL,2014,2.82
+Bosnia and Herzegovina,BIH,2012,3.19
+Bosnia and Herzegovina,BIH,2014,3.86
+Brazil,BRA,2012,2.33
+Brazil,BRA,2014,2.85
+Bulgaria,BGR,2012,5.76
+Bulgaria,BGR,2014,6.25
+Burundi,BDI,2014,2.26
+Cambodia,KHM,2012,0.86
+Cambodia,KHM,2014,0.92
+Cameroon,CMR,2012,7.54
+Cameroon,CMR,2014,2.43
+Canada,CAN,2012,6.8
+Canada,CAN,2014,6.88
+Chile,CHL,2012,3.69
+Chile,CHL,2014,5.21
+China,CHN,2012,2.16
+China,CHN,2014,2.13
+Colombia,COL,2012,1.67
+Colombia,COL,2014,1.81
+Comoros,COM,2014,1.96
+Costa Rica,CRI,2014,3.63
+Croatia,HRV,2012,4.81
+Croatia,HRV,2014,5.65
+Cyprus,CYP,2012,4.9
+Cyprus,CYP,2014,5.52
+Czech Republic,CZE,2012,4.91
+Czech Republic,CZE,2014,5.69
+Denmark,DNK,2012,4.66
+Denmark,DNK,2014,4.73
+Dominican Republic,DOM,2012,5.53
+Dominican Republic,DOM,2014,6.25
+Ecuador,ECU,2012,5.67
+Ecuador,ECU,2014,5.91
+Egypt,EGY,2012,2.29
+Egypt,EGY,2014,2.69
+Estonia,EST,2012,4.8
+Estonia,EST,2014,4.8
+Ethiopia,ETH,2014,1.97
+Fiji,FJI,2012,4.23
+Fiji,FJI,2014,4.57
+Finland,FIN,2012,5.03
+Finland,FIN,2014,5.42
+France,FRA,2012,6.69
+France,FRA,2014,7.61
+Gambia,GMB,2014,4.42
+Georgia,GEO,2012,1.57
+Georgia,GEO,2014,2.41
+Germany,DEU,2012,5.74
+Germany,DEU,2014,6.34
+Ghana,GHA,2012,2.35
+Ghana,GHA,2014,2.41
+Greece,GRC,2012,4.71
+Greece,GRC,2014,5.75
+Guatemala,GTM,2012,2.92
+Guatemala,GTM,2014,3.22
+Honduras,HND,2012,3.18
+Honduras,HND,2014,3.38
+Hungary,HUN,2012,4.82
+Hungary,HUN,2014,6.74
+Iceland,ISL,2012,7.42
+Iceland,ISL,2014,8.89
+India,IND,2012,5.33
+India,IND,2014,4.63
+Indonesia,IDN,2012,2.2
+Indonesia,IDN,2014,2.68
+Iran,IRN,2012,2.26
+Iran,IRN,2014,2.52
+Ireland,IRL,2012,10.59
+Ireland,IRL,2014,11.16
+Israel,ISR,2014,7.15
+Italy,ITA,2012,5.44
+Italy,ITA,2014,5.43
+Jamaica,JAM,2012,12.19
+Jamaica,JAM,2014,13
+Japan,JPN,2012,4.04
+Japan,JPN,2014,4.34
+Kazakhstan,KAZ,2012,1.26
+Kazakhstan,KAZ,2014,1.45
+Kenya,KEN,2012,1.69
+Kenya,KEN,2014,1.78
+Latvia,LVA,2012,4.58
+Latvia,LVA,2014,7.13
+Lebanon,LBN,2012,2.35
+Lebanon,LBN,2014,2.67
+Lithuania,LTU,2012,4.82
+Lithuania,LTU,2014,5.11
+Luxembourg,LUX,2012,4.26
+Luxembourg,LUX,2014,4.47
+Macedonia,MKD,2012,2.81
+Macedonia,MKD,2014,3.05
+Malaysia,MYS,2012,5.02
+Malaysia,MYS,2014,6.1
+Mali,MLI,2014,1.85
+Mexico,MEX,2012,4.56
+Mexico,MEX,2014,5.15
+Moldova,MDA,2012,1.95
+Moldova,MDA,2014,2.06
+Mongolia,MNG,2012,0
+Mongolia,MNG,2014,2.54
+Morocco,MAR,2012,4.08
+Morocco,MAR,2014,4.81
+Nepal,NPL,2012,1.78
+Nepal,NPL,2014,1.73
+Netherlands,NLD,2012,6.17
+Netherlands,NLD,2014,7.22
+New Zealand,NZL,2012,8.53
+New Zealand,NZL,2014,10.61
+Nicaragua,NIC,2012,2.84
+Nigeria,NGA,2012,1.75
+Norway,NOR,2012,8.33
+Norway,NOR,2014,9.31
+Oman,OMN,2012,2.6
+Oman,OMN,2014,2.86
+Pakistan,PAK,2012,0.97
+Pakistan,PAK,2014,1.1
+Panama,PAN,2012,6.57
+Panama,PAN,2014,6.44
+Peru,PER,2012,2.96
+Peru,PER,2014,3.7
+Philippines,PHL,2012,1.23
+Philippines,PHL,2014,1.86
+Poland,POL,2012,5.85
+Poland,POL,2014,6.45
+Portugal,PRT,2012,6.07
+Portugal,PRT,2014,5.93
+Romania,ROU,2012,5.79
+Romania,ROU,2014,6.16
+Russia,RUS,2012,1.52
+Russia,RUS,2014,2.18
+Rwanda,RWA,2014,2.01
+Saint Kitts and Nevis,KNA,2012,3.52
+Samoa,WSM,2012,5.96
+Saudi Arabia,SAU,2012,2.63
+Senegal,SEN,2012,1.61
+Senegal,SEN,2014,1.91
+Serbia,SRB,2012,3.25
+Serbia,SRB,2014,4.48
+Sierra Leone,SLE,2014,1.58
+Singapore,SGP,2012,10.58
+Singapore,SGP,2014,11.04
+Slovakia,SVK,2012,4.66
+Slovakia,SVK,2014,4.95
+Slovenia,SVN,2012,4.93
+Slovenia,SVN,2014,5.84
+South Africa,ZAF,2012,5.16
+South Africa,ZAF,2014,5.48
+South Korea,KOR,2012,3.22
+South Korea,KOR,2014,3.24
+Spain,ESP,2012,5.65
+Spain,ESP,2014,6.39
+Sri Lanka,LKA,2012,7.63
+Sri Lanka,LKA,2014,8.42
+Sweden,SWE,2012,5.6
+Sweden,SWE,2014,6.5
+Switzerland,CHE,2012,4.59
+Switzerland,CHE,2014,5.08
+Thailand,THA,2012,2.94
+Thailand,THA,2014,3.41
+Tonga,TON,2012,7.63
+Tunisia,TUN,2012,2.82
+Tunisia,TUN,2014,3.26
+Turkey,TUR,2012,4.92
+Turkey,TUR,2014,5.63
+Uganda,UGA,2012,1.79
+Uganda,UGA,2014,2.03
+Ukraine,UKR,2012,1.76
+Ukraine,UKR,2014,2.22
+United Arab Emirates,ARE,2012,1.55
+United Arab Emirates,ARE,2014,1.82
+United Kingdom,GBR,2012,10.78
+United Kingdom,GBR,2014,11.2
+United States,USA,2012,6.07
+United States,USA,2014,6.07
+Uruguay,URY,2012,3.98
+Uruguay,URY,2014,3.71
+Uzbekistan,UZB,2012,1.64
+Uzbekistan,UZB,2014,2.31
+Venezuela,VEN,2012,5.95
+Vietnam,VNM,2012,2.49
+Vietnam,VNM,2014,2.07
+Yemen,YEM,2012,1.71
+Yemen,YEM,2014,1.94
+Zambia,ZMB,2012,1.68
+Zambia,ZMB,2014,1.81
+Zimbabwe,ZWE,2012,0.67
+Zimbabwe,ZWE,2014,1.07

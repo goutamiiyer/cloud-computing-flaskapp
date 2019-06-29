@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="static/styles.css" rel="stylesheet">
+      <title>Display</title>
+
+  </head>
+  <body>
+    <div class="container">
+
+      <h1> 1001669338 </h1>
+      <h1> Padmanabhan, Goutami </h1>
+
+      <br>
+        <p>No. of rows: {{rowcount}}</p>
+        <p> Execution Time without caching: {{ elapsed_time }} </p>
+
+      <center>
+
+
+
+      {#{% if table is not None %}#}
+          <table>
+            <thead>
+                  <th> Time </th>
+                  <th> Latitude </th>
+                  <th> Longitude </th>
+                  <th> Depth </th>
+                  <th> Magnitude </th>
+                  <th> Magnitude Type </th>
+                  <th> NST </th>
+                  <th> Gap </th>
+                  <th> DMin </th>
+                  <th> RMS </th>
+                  <th> Net </th>
+                  <th> ID </th>
+                  <th> Updated </th>
+                  <th> Place </th>
+                  <th> Type </th>
+                  <th> Horizontal Error </th>
+                  <th> Depth Error </th>
+                  <th> Magnitude Error </th>
+                  <th> Magnitude NST </th>
+                  <th> Status </th>
+                  <th> Location Source </th>
+                  <th> Magnitude Source </th>
+            </thead>
+
+            <tbody>
+              {% for value in table %}
+            <tr>
+                  <td> {{ value[0] }} </td>
+                  <td> {{ value[1] }} </td>
+                  <td> {{ value[2] }} </td>
+                  <td> {{ value[3] }} </td>
+                  <td> {{ value[4] }} </td>
+                  <td> {{ value[5] }} </td>
+                  <td> {{ value[6] }} </td>
+                  <td> {{ value[7] }} </td>
+                  <td> {{ value[8] }} </td>
+                  <td> {{ value[9] }} </td>
+                  <td> {{ value[10] }} </td>
+                  <td> {{ value[11] }} </td>
+                  <td> {{ value[12] }} </td>
+                  <td> {{ value[13] }} </td>
+                  <td> {{ value[14] }} </td>
+                  <td> {{ value[15] }} </td>
+                  <td> {{ value[16] }} </td>
+                  <td> {{ value[17] }} </td>
+                  <td> {{ value[18] }} </td>
+                  <td> {{ value[19] }} </td>
+                  <td> {{ value[20] }} </td>
+                  <td> {{ value[21] }} </td>
+                  <td> {{ value[22] }} </td>
+
+            </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+      {#{% else %}#}
+          {#<div>No data available</div>#}
+      {#{% endif %}#}
+        </center>
+
+      <br>
+      <br>
+
+
+    </div>
+
+  </body>
+</html>

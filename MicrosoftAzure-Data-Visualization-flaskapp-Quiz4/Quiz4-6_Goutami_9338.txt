@@ -1,0 +1,233 @@
+
+Name: Goutami Padmanabhan
+Last 4 digits ID: 9338
+Computer IP address: 10.121.129.127
+CSE 6331, Cloud Computing
+
+
+Quiz Q4, 6.00, Summer 2019   (c) DL, UTA, 2019
+
+
+  C&P means cut and paste only those relevant lines from your program(s) into this quiz.
+
+
+ 1.  I understand that I am on my honor during this quiz, I will not collaborate, use 
+     non-allowed sources, and I will not discuss or share this quiz with anyone for the next 
+     12 hours.
+     You MAY: use Google to search, use previous source code, 
+     YOU MAY NOT use:
+     Email, Facebook, Hangouts, IM, chats, Skype or ANY other human connection.
+
+     This is a timed test. Late tests will have points deducted for being late.
+     Very late tests will not be graded.
+
+     When you are complete, with any part, please raise your hand, so we may visually inspect that part.
+
+     The second part of the test, you should electronically submit, you will need to copy and paste 
+     only those lines of code to implement that part of the test, usually a few (two to eight) lines of code. 
+     Place it immediately after the question.
+
+     Submit this Quiz (renamed) with code cut and pasted, ONLY text. DO NOT submit zips, binaries, libraries,
+     or anything other than text.
+
+     When any parts(questions) are complete complete, submit this test, you may make multiple submissions.
+
+     If you have computer, or other, problems, please raise your hand immediately.
+
+     If you understand and agree, please initial here:
+     _________________G.P
+
+ 2. Get files from this same folder.
+   
+ 3. Name your program/submission with your name and last digits of your ID.
+
+ 4. Using the cloud services provider, all functionality possible should be implemented on that provider.
+    (Of course, displaying web pages through a browser and the user interface is "local")
+    The cloud service provider is MS Azure.
+
+ 4+ In order to give as many people the opportunity to demo in the last few minutes, you may only demo ONE Question in the
+    last 5 minutes of the quiz time or for the few minutes afterward. 
+  
+Show and submit code, when each part is complete, raise your hand and then show us:
+
+ 5. Upload the .csv data file to cloud service. Once it is in the cloud service you will import it into
+    SQL tables, created and indexed as necessary (for the following parts).
+    The voting (.csv) are the states (in alphabetical order, from Alabama to Wyoming, 
+    including Washington DC), total state population, voting population, number registered voters, 
+    the number who actually did vote, all in thousands (the values have 000 appended at the end).
+    Please create SQL tables with the information in the dataset.
+    Show a web page and interface (which resides on the cloud provider) with your student ID followed by your
+    last name then comma then first name (as it appears on your student ID), in large font at the top of every web page displayed 
+    (for this quiz)
+    On the same web page show the names of all states with a total population between 2 to 8 million and 
+    then between 8 million and 40 million.
+
+
+@app.route("/list", methods=["POST", "GET"])
+def list():
+    query1 = "select * from voting where totalpop between 2000 and 8000"
+    cursor.execute(query1)
+    r1 = cursor.fetchall()
+
+    query2 = "select * from voting where totalpop between 8000 and 40000"
+    cursor.execute(query2)
+    r2 = cursor.fetchall()
+
+    return render_template('list.html', rows1=r1, rows2=r2)
+
+
+{#{% if rows1 is not None %}#}
+          <table>
+            <thead>
+                  <th> State </th>
+                  <th> Totalpop </th>
+                  <th> Votepop </th>
+                  <th> Registered </th>
+                  <th> Voted </th>
+
+            </thead>
+
+            <tbody>
+              {% for value in rows1 %}
+            <tr>
+                  <td> {{ value[0] }} </td>
+                  <td> {{ value[1] }} </td>
+                  <td> {{ value[2] }} </td>
+                  <td> {{ value[3] }} </td>
+                  <td> {{ value[4] }} </td>
+
+            </tr>
+              {% endfor %}
+            </tbody>
+          </table> <br>
+      {#{% else %}#}
+          {#<div>No data available</div>#}
+      {#{% endif %}#}
+      {#{% if rows2 is not None %}#}
+          <table>
+            <thead>
+                  <th> State </th>
+                  <th> Totalpop </th>
+                  <th> Votepop </th>
+                  <th> Registered </th>
+                  <th> Voted </th>
+
+            </thead>
+
+            <tbody>
+              {% for value in rows2 %}
+            <tr>
+                  <td> {{ value[0] }} </td>
+                  <td> {{ value[1] }} </td>
+                  <td> {{ value[2] }} </td>
+                  <td> {{ value[3] }} </td>
+                  <td> {{ value[4] }} </td>
+
+            </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+      {#{% else %}#}
+          {#<div>No data available</div>#}
+      {#{% endif %}#}
+
+
+
+ 6. Show a "scatter" diagram (point chart) where the x axis is Total Population and the y axis is the number registered, in millions.
+    (That is, for this part, divide all populations by 1000 to get millions. We will give you a range of Total populations 
+    (for example from 3 to 10, which means only display those states which have a total population between 3 million and 10 million.)
+    The x axis should be horizontal, and the y vertical. 
+    The axis (or all points) should be labeled with values. The user will give the population range values.
+    The axis should be labeled, and the plot should occupy between 75% and 85% of the width of your display.
+
+ 7. 
+
+
+
+
+@app.route("/showpie", methods=["POST", "GET"])
+def showpie():
+
+    range1 = 0
+    range2 = int(request.form.get('range2', ''))
+
+    query1 = "SELECT max(totalpop) FROM voting"
+    cursor.execute(query1)
+    r1 = cursor.fetchall()
+
+    totrange = 0
+    count = 0
+    range11 = []
+
+
+    for i in range(range2):
+        if (totrange <= r1[0][0]):
+            totrange += range2
+        if totrange> r1[0][0]:
+            break
+
+        query2 = "SELECT count(*) FROM voting WHERE totalpop between '" + str(range1) + "' AND '" + str(range2) + "'"
+        cursor.execute(query2)
+        r2 = cursor.fetchall()
+        range1 = range2
+        range2 = range2 + totrange
+        count = count + 1
+        range11.append(range1)
+
+    range11.append(range2)
+
+
+    rows = ([
+        ['State', 'Number of population'],
+        [str(range11[0][0]) + '-' + str(range1[0][1]), r2[0][0]],
+        [str(range11[0][2]) + '-' + str(range1[0][3]), r2[0][0]],
+        [str(range11[0][4]) + '-' + str(range1[0][5]), r2[0][0]],
+        [str(range11[0][6]) + '-' + str(range1[0][7]), r2[0][0]],
+        [str(range11[0][8]) + '-' + str(range1[0][9]), r2[0][0]]
+
+    ])
+
+    return render_template('showpie.html', rows=rows)
+
+
+
+ 8. Using the formula x = (y*y*y) modulo 10, (That is, create a sequence of values where you extract, just the last decimal digit)
+    where the user specifies the range of y, (for example, if the user gives the value 3, you will generate: 1, 8, 7
+    (which is 1*1*1 mod 10 = 1, 2*2*2 mod 10= 8, 3*3*3 mod 10 = 7))
+    Then show, in a horizontal bar graph show number on each digit generated (number of 1s, number of 2s, etc.) IF there are 
+    some values (in the previous example, there are no 0, 2, 3, 4... etc generated) do not show a bar.
+    The bars should be labeled, and the chart should occupy between 70% and 95% of the width of your display,
+    show legend (amounts) inside each bar.
+
+@app.route("/bar", methods=["POST", "GET"])
+def bar():
+
+    r1 = []
+    range1 = int(request.form.get('range', ''))
+
+    for i in range(range1):
+        modulo = (i**3)%10
+        r1.append(modulo)
+
+
+    rows = ([
+        ['Magnitude', 'Number of Earthquakes'],
+        ['1', r1[0][0]],
+        ['2', r1[0][0]],
+        ['3', r1[0][0]],
+        ['4', r1[0][0]],
+        ['5', r1[0][0]],
+        ['6', r1[0][0]],
+        ['7', r1[0][0]],
+        ['8', r1[0][0]],
+        ['9', r1[0][0]],
+        ['0', r1[0][0]]
+    ])
+
+    return render_template('bar.html', rows=rows)
+ 
+ 9. Show GTA parts 5, 6, 7, 8
+
+ 10. When complete, return (send) this quiz
+     If you finish early, send this immediately, otherwise send between
+     the end of class and no more than 1 minute after that.

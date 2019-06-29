@@ -1,0 +1,186 @@
+
+Name: Goutami Padmanabhan
+Last 4 digits ID: 9338
+Computer IP address: 
+CSE 6331, Cloud Computing					
+
+
+Quiz Q2, 6.00, Summer 2019   (c) DL, UTA, 2019
+
+
+  C&P means cut and paste only those relevant lines from your program(s) into this quiz.
+
+
+ 1.  I understand that I am on my honor during this quiz, I will not collaborate, use 
+     non-allowed sources, and I will not discuss or share this quiz with anyone for the next 
+     12 hours.
+     You MAY: use Google to search, use previous source code, 
+     YOU MAY NOT use:
+     Email, Facebook, Hangouts, IM, chats, Skype or ANY other human connection.
+
+     This is a timed test. Late tests will have points deducted for being late.
+     Very late tests will not be graded.
+
+     When you are complete, with any part, please raise your hand, so we may visually inspect that part.
+
+     The second part of the test, you should electronically submit, you will need to copy and paste 
+     only those lines of code to implement that part of the test, usually a few (two to eight) lines of code. 
+     Place it immediately after the question.
+
+     Submit this Quiz (renamed) with code cut and pasted, ONLY text. DO NOT submit zips, binaries, libraries,
+     or anything other than text.
+
+     When any parts(questions) are complete complete, submit this test, you may make multiple submissions.
+
+     If you have computer, or other, problems, please raise your hand immediately.
+
+     If you understand and agree, please initial here:
+     _________________G.P
+
+ 2. Get files from this same folder.
+   
+ 3. Name your program/submission with your name and last digits of your ID.
+
+ 4. Using the cloud services provider, all functionality possible should be implemented on that provider.
+    (Of course, displaying web pages through a browser and the user interface is "local")
+    The cloud service provider is MS Azure.
+
+ 4+. Please DO NOT "select" all tuples and then "filter" results, that is very inefficient and wastes time, 
+     "select" ONLY those tuples (rows) actually needed (for example with "where x>y" or similar).
+     In order to give as many people the opportunity to demo in the last few minutes, you may only demo ONE Question in the
+     last 5 minutes of the quiz time or for the few minutes afterward. 
+  
+Show and submit code, when each part is complete, raise your hand and then show us:
+
+ 5. Show a web page and interface (which resides on the cloud provider) with your student ID followed by your
+    last name then comma then first name (as it appears on your student ID), in large font at the top of every web page displayed 
+    (for this quiz)
+    Upload the earthquake data ("quakes6") to cloud service, and import into a relational DB (SQL).
+    Then, below your name and ID, through a web interface (page), allow a user to give two depth error values (depth error, last column)  
+    (for example 10.0 and 12.5), and one longitude value (for example 42) and on the web page list each quake ONLY location (lat, long)
+    AND date and depth error within that depth error range with longitude greater than the one given. 
+
+<form action="/display" method="post">
+                <label>Depth Error</label><br>
+                <label> From:</label> <input type="number" name="depthrange1" step="any"> <br>
+                <label> To:</label> <input type="number" name="depthrange2" step="any"> <br>
+                <label> Longitude:</label> <input type="number" name="longitude" step="any"> <br><br>
+                <input type="submit" value="Search" class="btn btn-primary">
+            </form>
+
+@app.route("/display", methods=["POST", "GET"])
+def display():
+    depthrange1 = float(request.form.get('depthrange1', ''))
+    depthrange2 = float(request.form.get('depthrange2', ''))
+    longitude = float(request.form.get('longitude', ''))
+
+    query1 = "SELECT latitude, longitude, gmt, deptherror FROM quakes WHERE longitude > '" + str(longitude) + "' AND deptherror BETWEEN '" + str(depthrange1) + "' AND '" + str(depthrange2) + "'"
+    start_time = time.time()
+    cursor.execute(query1)
+    rows = cursor.fetchall()
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    return render_template('display.html', table=rows, rowcount=len(rows), elapsed_time=elapsed_time)
+
+
+
+ 6. Through a web interface (page), allow a user to give you the number of times to do the "query", 
+    you will do the previous step 5 (part 5) that number of times, where the two depth values will be randomly chosen between 
+    those values given, BUT DO NOT use the longitude constraint (don't use that value), 
+    Then you will do that number of queries, each time generating new random value "pairs" within that range. 
+    (For example: the number of times, for instance 38 times, and we give you the range 10.0 and 12.5, you generate 
+    two random values within that range, for example 10.8 and 11.1, then 12.3 and 12.4, repeating 38 times.)
+    Then you will show: 
+    The number of matching tuples (results) EACH time through AND random values generated as well 
+    as the time taken to do EACH "random" query.
+
+<form action="/random" method="post">
+                <label> Number of times:</label> <input type="number" name="num" step="any"> <br>
+                <label> Depth Error </label> <br>
+                <label> From:</label> <input type="number" name="depthrange1" step="any"> <br>
+                <label> To:</label> <input type="number" name="depthrange2" step="any"> <br> <br>
+                <input type="submit" value="Search" class="btn btn-primary">
+            </form>
+
+@app.route("/random", methods=["POST", "GET"])
+def random():
+    num = int(request.form.get('num', ''))
+    range1 = float(request.form.get('depthrange1', ''))
+    range2 = float(request.form.get('depthrange2', ''))
+
+    rand1=[]
+    rand2=[]
+    timediff=[]
+
+    start_time = time.time()
+
+    for i in range(1, int(num)):
+        randid1 = randrange(range1,range2)
+        rand1.append(randid1)
+        randid2 = randrange(range1,range2)
+        rand2.append(randid2)
+        query1 = "SELECT latitude, longitude, gmt, deptherror FROM quakes WHERE deptherror BETWEEN '" + str(range1) + "' AND '" + str(range2) + "'"
+        cursor.execute(query1)
+        rows = cursor.fetchall()
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+        timediff.append(elapsed_time)
+        return render_template('random.html', times=num, table=rows, rowcount=len(rows), timediff=elapsed_time,
+                           rand1=randid1, rand2=randid2)
+
+
+ 7. Repeat part 6, allow a user to either use an in-memory caching mechanism or none, and for ALL queries 
+    show ONLY cumulative time to do ALL queries.
+
+@app.route('/noqueries', methods=['POST', 'GET'])
+def noqueries():
+    range1 = float(request.form.get('depthrange1', ''))
+    range2 = float(request.form.get('depthrange2', ''))
+
+    total2 = 0
+    no = int(request.form.get('num', ''))
+    query2 = "SELECT latitude, longitude, gmt, deptherror FROM quakes WHERE deptherror BETWEEN '" + str(
+        range1) + "' AND '" + str(range2) + "'"
+    start2 = time.time()
+
+    for i in range(0, no):
+        hash1 = hashlib.sha256(query2.encode()).hexdigest()
+
+        if r.get(hash1):
+            print("This was return from redis")
+        else:
+            cursor.execute(query2)
+            t2 = cursor.fetchall()
+            rows1 = []
+            for x in t2:
+                rows1.append(str(x))
+                r.set(hash1, pickle.dumps(list(rows1)))
+                r.expire(hash1, 36)
+                print("This is the cached data")
+    end2 = time.time()
+    total2 = (end2 - start2)
+    avg2 = (total2 / no)
+    print('hi2')
+
+    total22 = 0
+
+    for number in range(0, no):
+        start22 = time.time()
+        cursor.execdirect(query2)
+        t22 = cursor.fetchall()
+        end22 = time.time()
+        total22 = (end22 - start22) + total22
+    avg22 = (total22 / no)
+    print('hi22')
+
+    return render_template('noqueries.html', times=no, totaltime=total2, avgtime=avg2, totaltime22=total22,
+                           avgtime22=avg22)
+
+
+ 8. Repeat part 6 using an in-memory caching mechanism (NOT an in-memory database) repeat the previous step, then show us.
+
+ 9. Show GTA parts 5, 6, 7, 8
+
+ 10. When complete, return (send) this quiz
+     If you finish early, send this immediately, otherwise send between
+     the end of class and no more than 1 minute after that.

@@ -1,0 +1,4 @@
+Flask==0.12.2
+cloudant==2.4.0
+ibm_db
+flask_db2
