@@ -1,0 +1,223 @@
+
+Name: Goutami Padmanabhan
+Last 4 digits ID: 9338
+Computer IP address: 10.121.129.127
+CSE 6331, Cloud Computing					
+
+
+Quiz Q6, 6.00, Summer 2019   (c) DL, UTA, 2019
+
+
+  C&P means cut and paste only those relevant lines from your program(s) into this quiz.
+
+ 1.  I understand that I am on my honor during this quiz, I will not collaborate, use 
+     non-allowed sources, and I will not discuss or share this quiz with anyone for the next 
+     12 hours.
+     You MAY: use Google to search, use previous source code, 
+     YOU MAY NOT use:
+     Email, Facebook, Hangouts, IM, chats, Skype or ANY other human connection.
+
+     This is a timed test. Late tests will have points deducted for being late.
+     Very late tests will not be graded.
+
+     When you are complete, with any part, please raise your hand, so we may visually inspect that part.
+
+     The second part of the test, you should electronically submit, you will need to copy and paste 
+     only those lines of code to implement that part of the test, usually a few (two to eight) lines of code. 
+     Place it immediately after the question.
+
+     Submit this Quiz (renamed) with code cut and pasted, ONLY text. DO NOT submit zips, binaries, libraries,
+     or anything other than text.
+
+     When any parts(questions) are complete complete, submit this test, you may make multiple submissions.
+
+     If you have computer, or other, problems, please raise your hand immediately.
+
+     If you understand and agree, please initial here:
+     _________________G.P
+
+ 2. Get files from this same folder.
+   
+ 3. Name your program/submission with your name and last digits of your ID.
+
+ 4. Using the cloud services provider, all functionality possible should be implemented on that provider.
+    (Of course, displaying web pages through a browser and the user interface is "local")
+    The cloud service provider is AWS.
+
+ 4+ In order to give as many people the opportunity to demo in the last few minutes, you may only demo ONE Question in the
+    last 5 minutes of the quiz time or for the few minutes afterward. 
+
+ 4++ Please open one window for the load testing software and another (or more) for the interface to the cloud based application.
+  
+Show and submit code, when each part is complete, raise your hand and then show us:
+
+ 5. You will run a "load-testing" application to "test" a cloud application.
+     Please enter the name of your load-testing application here: J-Meter
+http://dev-env.2sg2bxgnqd.us-east-2.elasticbeanstalk.com/
+    
+     And show it to us running on your computer.
+
+ 6. You have a picture, and a small csv file. You will write a web interface and application, running on AWS, that will return
+    (show) a page with your name and student ID at the top of the page, below that you will show "Cloud Computing 6:00", and 
+    below that, the picture a.jpg., and below that, for the states "Texas", "Louisiana" AND "Oklahoma" you will show the 
+    populations in 2010 to 2018, first showing 2010, then 2011, etc until 2018, then starting again at 2010. 
+    For EACH page request (from jmeter, or similar), you will show a DIFFERENT population (2010, 2011, 2012...) and 
+    the state names and the year. 
+    On the page, after showing the populations, at the bottom of the page please show the time when the request is received, 
+    and time when response is sent back to the user, and the elapsed time (on the cloud).
+
+<h1>1001669338</h1>
+            <h1>Padmanabhan, Goutami</h1>
+            <h1>Cloud Computing 6:00</h1>
+            <p>
+                <img src="static/images/a.jpg">
+            </p>
+            <br>
+            <br>
+            <p>***********************************************************************************************************************************************************************</p>
+            <br>
+            <h4>
+                 Population of 3 states: Louisiana, Oklahoma, Texas
+            </h4> <br>
+            <form action="/pop" method="post">
+
+                <input type="submit" value="Search" class="btn btn-primary">
+            </form>
+            <br>
+            <p>No. of rows: {{rowcount}}</p>
+            <p>Time: {{elapsed_time}}</p>
+            <center>
+                {#{% if rows is not None %}#}
+                {{rows}}
+                {#{% else %}#}
+                {#<div>No data available</div>#}
+                {#{% endif %}#}
+            </center>
+            <p>***********************************************************************************************************************************************************************</p>
+            
+
+import requests
+@application.route("/pop", methods=["POST", "GET"])
+def pop():
+    etime = []
+
+    start_time = time.time()
+
+    sql1 = "SELECT y2010 FROM dbo.pop WHERE state = 'Louisiana' OR state = 'Oklahoma' OR state = 'Texas'"
+    cursor.execute(sql1)
+    rows1 = cursor.fetchall()
+
+    end_time = time.time()
+    elapsed_time = end_time-start_time
+    etime.append(elapsed_time)
+
+# y2011
+
+    start_time = time.time()
+
+    sql1 = "SELECT y2011 FROM dbo.pop WHERE state = 'Louisiana' OR state = 'Oklahoma' OR state = 'Texas'"
+    cursor.execute(sql1)
+    rows1 = cursor.fetchall()
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    etime.append(elapsed_time)
+
+    # y2012
+
+    start_time = time.time()
+
+    sql1 = "SELECT y2012 FROM dbo.pop WHERE state = 'Louisiana' OR state = 'Oklahoma' OR state = 'Texas'"
+    cursor.execute(sql1)
+    rows1 = cursor.fetchall()
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    etime.append(elapsed_time)
+
+    # y2013
+
+    start_time = time.time()
+
+    sql1 = "SELECT y2013 FROM dbo.pop WHERE state = 'Louisiana' OR state = 'Oklahoma' OR state = 'Texas'"
+    cursor.execute(sql1)
+    rows1 = cursor.fetchall()
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    etime.append(elapsed_time)
+
+    # y2014
+
+    start_time = time.time()
+
+    sql1 = "SELECT y2014 FROM dbo.pop WHERE state = 'Louisiana' OR state = 'Oklahoma' OR state = 'Texas'"
+    cursor.execute(sql1)
+    rows1 = cursor.fetchall()
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    etime.append(elapsed_time)
+
+    # y2015
+
+    start_time = time.time()
+
+    sql1 = "SELECT y2015 FROM dbo.pop WHERE state = 'Louisiana' OR state = 'Oklahoma' OR state = 'Texas'"
+    cursor.execute(sql1)
+    rows1 = cursor.fetchall()
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    etime.append(elapsed_time)
+
+    # y2016
+
+    start_time = time.time()
+
+    sql1 = "SELECT y2016 FROM dbo.pop WHERE state = 'Louisiana' OR state = 'Oklahoma' OR state = 'Texas'"
+    cursor.execute(sql1)
+    rows1 = cursor.fetchall()
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    etime.append(elapsed_time)
+
+    # y2017
+
+    start_time = time.time()
+
+    sql1 = "SELECT y2017 FROM dbo.pop WHERE state = 'Louisiana' OR state = 'Oklahoma' OR state = 'Texas'"
+    cursor.execute(sql1)
+    rows1 = cursor.fetchall()
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    etime.append(elapsed_time)
+
+    # y2018
+
+    start_time = time.time()
+
+    sql1 = "SELECT y2018 FROM dbo.pop WHERE state = 'Louisiana' OR state = 'Oklahoma' OR state = 'Texas'"
+    cursor.execute(sql1)
+    rows1 = cursor.fetchall()
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    etime.append(elapsed_time)
+
+    return render_template("home.html", rows=rows1, rowcount=len(rows1), elapsed_time=elapsed_time)
+
+ 7. Then, using your load test tool, test (simulate) multiple users who are using your cloud application. 
+    We will give you a number of users to simulate. 
+    Monitor (test) the cloud execution with your load test tool, capture, and explain results. 
+    On the web page show us the pages as they are requested by your load test tool execution.
+
+ 8. Bonus (small):
+    On a web page show all execution times within an interval, that is, for an interval that the user gives on a web page 
+    (in seconds, for example the last 30 seconds), show the times from question 6, for EACH (ALL) requests.
+
+ 10. When complete, return (send) this quiz
+     If you finish early, send this immediately, otherwise send between
+     the end of class and no more than 1 minute after that.

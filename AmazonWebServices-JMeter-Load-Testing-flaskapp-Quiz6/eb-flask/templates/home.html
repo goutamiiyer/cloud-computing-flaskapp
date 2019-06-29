@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="static/styles.css" rel="stylesheet">
+
+        <title>Home</title>
+    </head>
+    <body>
+        <div class="container">
+
+            <h1>1001669338</h1>
+            <h1>Padmanabhan, Goutami</h1>
+            <h1>Cloud Computing 6:00</h1>
+            <p>
+                <img src="static/images/a.jpg">
+            </p>
+            <br>
+            <br>
+            <p>***********************************************************************************************************************************************************************</p>
+            <br>
+            <h4>
+                 Population of 3 states: Louisiana, Oklahoma, Texas
+            </h4> <br>
+            <form action="/pop" method="post">
+                <input type="submit" value="Search" class="btn btn-primary">
+            </form>
+            <br>
+            <p>No. of rows: {{rowcount}}</p>
+            <p>Time: {{elapsed_time}}</p>
+            <center>
+                {#{% if rows is not None %}#}
+                {{rows}}
+                {#{% else %}#}
+                {#<div>No data available</div>#}
+                {#{% endif %}#}
+            </center>
+            <p>***********************************************************************************************************************************************************************</p>
+            <br>
+            <br>
+            <p>***********************************************************************************************************************************************************************</p>
+            <br>
+
+        </div>
+    </body>
+</html>
