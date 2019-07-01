@@ -121,134 +121,148 @@ def restricted():
 
 @app.route('/noqueries', methods=['POST', 'GET'])
 def noqueries():
-    total2 = 0
-    no = int(request.form.get('no', ''))
-    query2 = "SELECT * FROM earth WHERE mag=3.3"
-    start2 = time.time()
+    totaltime = 0
 
-    for i in range(0, no):
-        hash1 = hashlib.sha256(query2.encode()).hexdigest()
+    times = int(request.form.get('times', ''))
+
+    query1 = "SELECT * FROM earth WHERE mag=3.3"
+
+    start = time.time()
+
+    for i in range(0, times):
+        hash1 = hashlib.sha256(query1.encode()).hexdigest()
 
         if r.get(hash1):
             print("This was return from redis")
         else:
-            cursor.execute(query2)
-            t2 = cursor.fetchall()
+            cursor.execute(query1)
+            t1 = cursor.fetchall()
             rows1 = []
-            for x in t2:
+
+            for x in t1:
                 rows1.append(str(x))
                 r.set(hash1, pickle.dumps(list(rows1)))
                 r.expire(hash1, 36)
                 print("This is the cached data")
-    end2 = time.time()
-    total2 = (end2 - start2)
-    avg2 = (total2 / no)
-    print('hi2')
 
-    total22 = 0
+    end = time.time()
+    totaltime = (end - start)
+    avg = (totaltime / times)
 
-    for number in range(0, no):
-        start22 = time.time()
-        cursor.execdirect(query2)
-        t22 = cursor.fetchall()
-        end22 = time.time()
-        total22 = (end22 - start22) + total22
-    avg22 = (total22 / no)
-    print('hi22')
+    elapsed_time = 0
 
-    return render_template('noqueries.html', times=no, totaltime=total2, avgtime=avg2, totaltime22=total22,
-                           avgtime22=avg22)
+    for number in range(0, times):
+        start_time = time.time()
+
+        cursor.execdirect(query1)
+        t12 = cursor.fetchall()
+
+        end_time = time.time()
+        elapsed_time = (end_time - start_time) + elapsed_time
+
+    avg_time = (elapsed_time / times)
+
+    return render_template('noqueries.html', times=times, totaltime=totaltime, avgtime=avg, elapsed_time=elapsed_time,
+                           avg_time=avg_time)
 
 
-@app.route('/restqueries', methods=['POST', 'GET'])
-def restqueries():
+@app.route('/restrictquery', methods=['POST', 'GET'])
+def restrictquery():
 
-    n = int(request.form.get('n', ''))
+    times = int(request.form.get('times', ''))
     mag1 = float(request.form.get('m1', ''))
     mag2 = float(request.form.get('m2', ''))
-    total3 = 0
 
-    start3 = time.time()
-    for i in range(0, n):
+    totaltime = 0
+
+    start = time.time()
+
+    for i in range(0, times):
         val = random.uniform(mag1, mag2)
         magval = round(val, 2)
-        query3 = "SELECT * FROM earth WHERE mag = '" + str(magval) + "'"
-        hash1 = hashlib.sha256(query3.encode()).hexdigest()
+
+        query1 = "SELECT * FROM earth WHERE mag = '" + str(magval) + "'"
+        hash1 = hashlib.sha256(query1.encode()).hexdigest()
 
         if r.get(hash1):
             print("This was return from redis")
         else:
-            cursor.execute(query3)
-            t3 = cursor.fetchall()
+            cursor.execute(query1)
+            t1 = cursor.fetchall()
             rows1 = []
-            for x in t3:
+            for x in t1:
                 rows1.append(str(x))
                 r.set(hash1, pickle.dumps(list(rows1)))
                 r.expire(hash1, 36)
                 print("This is the cached data")
-    end3 = time.time()
-    total3 = (end3-start3)
-    avg3 = (total3/n)
-    print('hi2')
 
-    total33 = 0
+    end = time.time()
+    totaltime = (end-start)
+    avg = (totaltime/times)
 
-    for number in range(0, n):
-        start33 = time.time()
-        cursor.execdirect(query3)
-        t33 = cursor.fetchall()
-        end33 = time.time()
-        total33 = (end33 - start33) + total33
-    avg33 = (total33 / n)
-    print('hi22')
+    elapsed_time = 0
 
-    return render_template('restqueries.html', times3=n, totaltime3=total3, avgtime3=avg3, totaltime33=total33,
-                           avgtime33=avg33)
+    for number in range(0, times):
+        start_time = time.time()
+        cursor.execdirect(query1)
+        t12 = cursor.fetchall()
+        end_time = time.time()
+        elapsed_time = (end_time - start_time) + elapsed_time
+    avg_time = (elapsed_time / times)
+
+    return render_template('restrictquery.html', times=times, totaltime=totaltime, avgtime=avg, elapsed_time=elapsed_time,
+                           avg_time=avg_time)
 
 
-@app.route('/restqueries2', methods=['POST', 'GET'])
-def restqueries2():
-    n2 = int(request.form.get('n2', ''))
+@app.route('/restquery', methods=['POST', 'GET'])
+def restquery():
+    times = int(request.form.get('times', ''))
     mg1 = float(request.form.get('mg1', ''))
     mg2 = float(request.form.get('mg2', ''))
-    total4 = 0
 
-    start4 = time.time()
-    for i in range(0, n2):
+    totaltime = 0
+
+    start = time.time()
+
+    for i in range(0, times):
         val = random.uniform(mg1, mg2)
         magval = round(val, 2)
-        query4 = "SELECT * FROM earth WHERE mag = '"+str(magval)+"' AND locsrc='ak'"
-        hash2 = hashlib.sha256(query4.encode()).hexdigest()
 
-        if r.get(hash2):
+        query1 = "SELECT * FROM earth WHERE mag = '"+str(magval)+"' AND locsrc='us'"
+        hash1 = hashlib.sha256(query1.encode()).hexdigest()
+
+        if r.get(hash1):
             print("This was return from redis")
         else:
-            cursor.execute(query4)
-            t4 = cursor.fetchall()
+            cursor.execute(query1)
+            t1 = cursor.fetchall()
             rows1 = []
-            for x in t4:
+            for x in t1:
                 rows1.append(str(x))
-                r.set(hash2, pickle.dumps(list(rows1)))
-                r.expire(hash2, 36)
+                r.set(hash1, pickle.dumps(list(rows1)))
+                r.expire(hash1, 36)
                 print("This is the cached data")
-    end4 = time.time()
-    total4 = (end4 - start4)
-    avg4 = (total4 / n2)
-    print('hi2')
 
-    total44 = 0
-    for number in range(0, n2):
-        start44 = time.time()
-        query4 = "SELECT * FROM earth WHERE mag = '"+str(magval)+"' AND locsrc='ak'"
-        cursor.execdirect(query4)
-        t44 = cursor.fetchall()
-        end44 = time.time()
-        total44 = (end44-start44)+total44
-    avg44 = (total44/n2)
-    print('hi2')
+    end = time.time()
+    totaltime = (end - start)
+    avg = (totaltime / times)
 
-    return render_template('restqueries2.html', times4=n2,
-                           totaltime4=total4, avgtime4=avg4, totaltime44=total44, avgtime44=avg44)
+    elapsed_time = 0
+
+    for number in range(0, times):
+        start_time = time.time()
+
+        query1 = "SELECT * FROM earth WHERE mag = '"+str(magval)+"' AND locsrc='us'"
+        cursor.execdirect(query1)
+        t12 = cursor.fetchall()
+
+        end_time = time.time()
+        elapsed_time = (end_time-start_time)+elapsed_time
+
+    avg_time = (elapsed_time/times)
+
+    return render_template('restquery.html', times=times,
+                           totaltime=totaltime, avgtime=avg, elapsed_time=elapsed_time, avg_time=avg_time)
 
 
 if __name__ == '__main__':
