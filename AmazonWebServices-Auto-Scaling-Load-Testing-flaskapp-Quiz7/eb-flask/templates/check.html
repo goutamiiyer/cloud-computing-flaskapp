@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <link href="styles.css" rel="stylesheet">
+      <title>Check</title>
+</head>
+<body>
+    <div class="container">
+        <h1> 1001669338 </h1>
+        <h1> Padmanabhan, Goutami </h1>
+        <br>
+        <p>Time: {{elapsed_time}}</p>
+        <br>
+        <br>
+        <p>Rows1: {{rows1}}</p>
+        {#{% if rows3 is not None %}#}
+            <p> Course enrolled: {{ rows3 }} </p>
+        {#{% else %}#}
+          {#<div>No courses enrolled</div>#}
+      {#{% endif %}#}
+        <p> List of courses: {{ rows4 }} </p>
+        <p>Course: {{rows5}}</p>
+        <p> Remaining Seats: {{rows6}} </p>
+        <p> Student Course: {{ rows8 }} </p>
+        <p>Students total: {{rows9}}</p>
+        <p> Rows: {{rows9}} </p>
+    </div>
+</body>
+</html>
