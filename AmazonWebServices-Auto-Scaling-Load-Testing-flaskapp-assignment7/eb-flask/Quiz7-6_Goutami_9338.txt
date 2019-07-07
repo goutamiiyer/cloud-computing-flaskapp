@@ -1,0 +1,174 @@
+
+Name: Goutami Padmanabhan
+Last 4 digits ID: 9338
+Computer IP address: 10.121.129.127
+CSE 6331, Cloud Computing					
+
+
+Quiz Q7, 6.00, Summer 2019   (c) DL, UTA, 2019
+
+
+  C&P means cut and paste only those relevant lines from your program(s) into this quiz.
+
+
+ 1.  I understand that I am on my honor during this quiz, I will not collaborate, use 
+     non-allowed sources, and I will not discuss or share this quiz with anyone for the next 
+     12 hours.
+     You MAY: use Google to search, use previous source code, 
+     YOU MAY NOT use:
+     Email, Facebook, Hangouts, IM, chats, Skype or ANY other human connection.
+
+     This is a timed test. Late tests will have points deducted for being late.
+     Very late tests will not be graded.
+
+     When you are complete, with any part, please raise your hand, so we may visually inspect that part.
+
+     The second part of the test, you should electronically submit, you will need to copy and paste 
+     only those lines of code to implement that part of the test, usually a few (two to eight) lines of code. 
+     Place it immediately after the question.
+
+     Submit this Quiz (renamed) with code cut and pasted, ONLY text. DO NOT submit zips, binaries, libraries,
+     or anything other than text.
+
+     When any parts(questions) are complete complete, submit this test, you may make multiple submissions.
+
+     If you have computer, or other, problems, please raise your hand immediately.
+
+     If you understand and agree, please initial here:
+     _________________G.P
+
+ 2. Get files from this same folder.
+   
+ 3. Name your program/submission with your name and last digits of your ID.
+
+ 4. Using the cloud services provider, all functionality possible should be implemented on that provider.
+    (Of course, displaying web pages through a browser and the user interface is "local")
+    The cloud service provider is AWS.
+
+ 4+ In order to give as many people the opportunity to demo in the last few minutes, you may only demo ONE Question in the
+    last 5 minutes of the quiz time or for the few minutes afterward. 
+
+ 4++ Please open one window for the load testing software and another (or more) for the interface to the cloud based application,
+     when needed. Some questions may also require that you open multiple different windows (or tabs) on DIFFERENT/SEPERATE browser
+     instances (locally).
+     You will need to use the files (data) associated with this quiz, for a list of classes and students, and associated information.
+  
+Show and submit code, when each part is complete, raise your hand and then show us:
+
+    You are asked to build a very minimal course registration system. It will (of course) be cloud based, on AWS.
+    Students will be allowed to enroll for up to 10 classes, as long they have enough credit (last column in student info.), 
+    each course enrolled in cost 20 credits. Students whose age is 60 or over pay only 10 credits per course.
+    There must be room (seats) in each class requested.
+    Students who have already been accepted, whose names are on the student list, may enroll for any class,
+    if the student is new, and their name is not on the list, their name may be added, they are given 20 credits, 
+    and they may sign up for only one class.
+    Your interface should be from the student view, the student should enter their name and will be recognized as either
+    an existing student (on the list) or entered as a new student. Then they may either select a class that they wish to enroll in,
+    (this may be done multiple times), OR see which classes they are enrolled in and their remaining credit.
+    Classes are specified by a class number and section number, some classes have more than one section. 
+    Their may be up to three students, using different browsers (NOT TABS!) concurrently signing up for classes.
+    For security reasons, the students must run on different instances and must be viewable in different browsers.
+ 
+ 5. Show us the student view for enrolling in class. Show us instances running.
+
+ 6. Show us the student view showing all classes that student is enrolled in. Show us instances running.	
+
+@application.route("/check", methods=["POST", "GET"])
+def check():
+
+    fname = request.form['fname']
+    lname = request.form['lname']
+
+    start_time = time.time()
+
+    sql1 = "SELECT idnum FROM dbo.student WHERE fname = '" + str(fname) + "' AND lname = '" + str(lname) + "'"
+    cursor.execute(sql1)
+    rows1 = cursor.fetchall()
+
+    # if rows1 is None:
+    #     sql2 = "INSERT INTO dbo.student VALUES('')"
+
+    if rows1 is not None:
+        pass
+
+    end_time = time.time()
+    elapsed_time = end_time-start_time
+
+    return render_template("check.html", elapsed_time=elapsed_time, fname=fname, lname=lname)
+
+
+@application.route("/update", methods=["POST", "GET"])
+def update():
+    start_time = time.time()
+
+    sql1 = "SELECT * FROM dbo.stco"
+    cursor.execute(sql1)
+    rows1 = cursor.fetchall()
+
+    sql2 = "SELECT * FROM dbo.course WHERE maxseats <> 0"
+    cursor.execute(sql2)
+    rows2 = cursor.fetchall()
+
+    course = int(request.form['course'])
+    section = int(request.form['section'])
+
+    sql3 = "SELECT * FROM dbo.course WHERE course= '" + str(course) + "' AND section= '" + str(section) + "' AND  maxseats <> 0"
+    cursor.execute(sql3)
+    rows3 = cursor.fetchall()
+
+    if rows3 is not None:
+        sql4 = "UPDATE dbo.course SET maxseats = maxseats-1 WHERE course = '" + str(course) + "' AND section = '" + str(section) + "'"
+        cursor.execute(sql4)
+        sql5 = "INSERT INTO dbo.stco(course, section) VALUES ('" + str(course) + "', '" + str(section) + "')"
+        cursor.execute(sql5)
+
+    sql6 = "SELECT maxseats FROM dbo.course WHERE course = '" + str(course) + "' AND section = '" + str(section) + "'"
+    cursor.execute(sql6)
+    rows6 = cursor.fetchall()
+
+    sql8 = "SELECT * FROM dbo.stco"
+    cursor.execute(sql8)
+    rows8 = cursor.fetchall()
+
+    sql9 = "SELECT sc.sid, sc.course, sc.section, c.maxseats FROM dbo.st as s, dbo.cr as c, dbo.stco as sc WHERE sc.sid=s.idnum AND sc.course=c.course AND sc.section=c.section"
+    cursor.execute(sql9)
+    rows9 = cursor.fetchall()
+
+    end_time = time.time()
+    elapsed_time = end_time-start_time
+
+    return render_template("update.html", rows1=rows1, rows2=rows2, rows6=rows6, rows8=rows8, rows9=rows9, elapsed_time=elapsed_time)
+
+
+
+ 7. Show a web page (which resides on the cloud provider) with your name and student ID in large green font at the top of 
+    the web page dispayed (for this quiz) 
+    Then show the time (actual time, not time used) and below that a counter which increases each time there is a page request.
+
+    Then, using your load test tool, test (simulate) multiple users who are using your cloud application. 
+    We will give you a number of users to simulate. 
+    Using "auto scaling", create multiple instances based on CPU utilization (set the threshold so that you will create multiple
+    instances), then when requests have decreased, show us scaling down.
+ 
+    Monitor (test) the cloud execution with your load test tool, capture, and explain results. 
+    Show us in a browser the web page, and also show us the number of instances.
+
+
+count = 0
+@application.route("/")
+def home():
+    global count
+    count = count + 1
+    pagetime = datetime.datetime.now()
+    return render_template('home.html', count=count, pagetime=pagetime)
+
+<h1><font color="green">1001669338</font></h1>
+            <h1><font color="green">Padmanabhan, Goutami</font></h1>
+            <br>
+            <br>
+            <p>Count: {{count}} </p>
+            <p> Time: {{ pagetime }} </p>
+
+ 10. When complete, return (send) this quiz
+     If you finish early, send this immediately, otherwise send between
+     the end of class and no more than 1 minute after that.
